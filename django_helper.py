@@ -1,6 +1,12 @@
-from django.core import management
+# python imports
 import os
 import re
+import sys
+import subprocess
+# django imports
+from django.core import management
+
+
 
 # all file contents are stored seperately to maintain readable code. 
 from djang_helper_supporting import project_url_contents, settings_file_contents
@@ -9,12 +15,17 @@ from djang_helper_supporting import api_urls_content, api_serializer_content, ap
 from djang_helper_supporting import users_forms_content, users_models_content, users_views_content, users_urls_content
 
 
+if len(sys.argv) != 4 and sys.argv[3].lower() in ['mac', 'windows']: 
+    sys.exit("Incorrect amount of arguments or bad formatting, example: Django_helper.py project_name app_name mac/windows")
+
+
 # for now these are hard-coded but the intention is to allow the user to chnage the name of any of these.
-project_name = 'project_test'
-custom_app = 'app_test'
-user_app = 'users'
-api_app = 'api'
+project_name = sys.argv[1]
+custom_app = sys.argv[2]
+operating_sys = sys.argv[3]
 time_zone = 'UTC'
+user_app = 'users' # was going to allow adjustment to the users app name, but choosing not to at this time.
+api_app = 'api' # was going to allow adjustment to the api app, chooisng not to at this time.
 
 print(f'starting project {project_name}')
 management.call_command('startproject', project_name) # generate project 
@@ -107,7 +118,13 @@ with open('static/app.js', 'w') as vue_file:
 with open('static/style.css', 'w') as css_file:
     css_file.write(css_content)
 
-# management.call_command('makemigrations', user_app)
-# management.call_command('migrate', user_app)
-management.call_command('makemigrations')
-management.call_command('migrate')
+
+
+if operating_sys.lower() == 'mac':
+    prefix = 'python3'
+else:
+    prefix = 'python'
+
+subprocess.run([prefix,'manage.py','makemigrations'])
+subprocess.run([prefix,'manage.py','migrate'])
+subprocess.run([prefix,'manage.py','runserver'])

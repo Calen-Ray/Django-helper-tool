@@ -331,7 +331,7 @@ let app = new Vue({
 
 css_content = '''
 body {
-    background-color: red;
+    background-color: rgb(226, 226, 226);
 }
 *{
     text-align: center;
