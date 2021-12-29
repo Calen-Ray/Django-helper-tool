@@ -37,7 +37,7 @@ G-->H[static folder built, app.js vue file and css file created.]
 H-->I[admin must run makemigrations and migrate after this step.]
 ```
 
-> **Note:** This is a rough concept of the flow of logic. 
+> **Note:** This graph absolutly failed to format how I thought it would... 
 
 
 ## Proposed additions 
